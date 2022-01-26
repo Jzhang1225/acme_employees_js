@@ -84,14 +84,14 @@ const employees = [
   function generateManagementTree (arr){
       const tree = {...arr[0]}
       const directSub = arr.filter(subordinate => subordinate.managerId === tree.id)
-      tree.reports = directSub
+      tree.reports = []
       if (directSub.length > 0){
-          tree.reports.forEach(subordinate=>{
-              let subordinateIdx = 0;
-              arr.forEach((employee, idx)=>{
-                  if (subordinate.name === employee.name) subordinateIdx = idx
-              });
-              subordinate = generateManagementTree(arr.slice(subordinateIdx))
+        tree.reports = directSub.map(subordinate=>{
+          let subordinateIdx = 0;
+          arr.forEach((employee, idx)=>{
+            if (subordinate.name === employee.name) subordinateIdx = idx
+          });
+          return subordinate = generateManagementTree(arr.slice(subordinateIdx))
           })
       }
       return tree
